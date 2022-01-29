@@ -1,36 +1,7 @@
 import { Box, Button, Image, Text, TextField } from "@skynexui/components";
+import { useRouter } from "next/router";
+import React from "react";
 import appConfig from "../config.json";
-
-function GlobalStyle() {
-  return (
-    <style global jsx>{`
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        list-style: none;
-      }
-      body {
-        font-family: "Open Sans", sans-serif;
-      }
-      /* App fit Height */
-      html,
-      body,
-      #__next {
-        min-height: 100vh;
-        display: flex;
-        flex: 1;
-      }
-      #__next {
-        flex: 1;
-      }
-      #__next > * {
-        flex: 1;
-      }
-      /* ./App fit Height */
-    `}</style>
-  );
-}
 
 function Titulo(props) {
   const Tag = props.tag || "h1";
@@ -48,26 +19,26 @@ function Titulo(props) {
   );
 }
 
-// Componente react
+// Componente React
 // function HomePage() {
-//   // JS
-//   return (
-//     <div>
-//       <GlobalStyle />
-//       <Title tag="h2">Boas vindas de volta!</Title>
-//       <h2>Discord - Alura Matrix</h2>
-//     </div>
-//   );
+//     // JSX
+//     return (
+//         <div>
+//             <GlobalStyle />
+//             <Titulo tag="h2">Boas vindas de volta!</Titulo>
+//             <h2>Discord - Alura Matrix</h2>
+//         </div>
+//     )
 // }
-
-// export default HomePage;
+// export default HomePage
 
 export default function PaginaInicial() {
-  const username = "peas";
+  // const username = 'D13GO91';
+  const [username, setUsername] = React.useState("D13GO91");
+  const roteamento = useRouter();
 
   return (
     <>
-      <GlobalStyle />
       <Box
         styleSheet={{
           display: "flex",
@@ -75,10 +46,10 @@ export default function PaginaInicial() {
           justifyContent: "center",
           backgroundColor: appConfig.theme.colors.primary[500],
           backgroundImage:
-            "url(https://virtualbackgrounds.site/wp-content/uploads/2020/08/the-matrix-digital-rain.jpg)",
+            "url(https://staticctf.akamaized.net/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/1YigGaAknnlgMlqZqCN4f2/712ffc962e3131c3874abe5919d9845d/ACV_UbiFwd3_THUMB.jpg)",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
-          backgroundBlendMode: "multiply",
+          //backgroundBlendMode: "multiply",
         }}
       >
         <Box
@@ -102,6 +73,12 @@ export default function PaginaInicial() {
           {/* Formulário */}
           <Box
             as="form"
+            onSubmit={function (infosDoEvento) {
+              infosDoEvento.preventDefault();
+              console.log("Alguém submeteu o form");
+              roteamento.push(`/chat?username=${username}`);
+              // window.location.href = '/chat';
+            }}
             styleSheet={{
               display: "flex",
               flexDirection: "column",
@@ -123,7 +100,28 @@ export default function PaginaInicial() {
               {appConfig.name}
             </Text>
 
+            {/* <input
+                            type="text"
+                            value={username}
+                            onChange={function (event) {
+                                console.log('usuario digitou', event.target.value);
+                                // Onde ta o valor?
+                                const valor = event.target.value;
+                                // Trocar o valor da variavel
+                                // através do React e avise quem precisa
+                                setUsername(valor);
+                            }}
+                        /> */}
             <TextField
+              value={username}
+              onChange={function (event) {
+                console.log("usuario digitou", event.target.value);
+                // Onde ta o valor?
+                const valor = event.target.value;
+                // Trocar o valor da variavel
+                // através do React e avise quem precisa
+                setUsername(valor);
+              }}
               fullWidth
               textFieldColors={{
                 neutral: {
